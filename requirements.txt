@@ -1,0 +1,9 @@
+matplotlib
+opencv-python
+tensorflow
+numpy
+tqdm
+pdf2image
+yapf
+addict
+pillow

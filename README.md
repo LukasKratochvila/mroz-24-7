@@ -34,8 +34,12 @@ pip install -r requirements.txt
 ## Predicting
 For predicting, you will need [pretrained model](https://drive.google.com/file/d/1AeYKb1j1jLyZMwfCnZGnSddZ0k4pIY_N/view?usp=drive_link) and images to predict. One can use single image or folder with images.
 
-When you have prepared data and config, you can run training by this command:
-> Make sure you had installed [virtual environment](#creation-of-virtual-environment) and it is active
+When you have prepared images and config, you can run predicting by this command:
+> Make sure you had installed [virtual environment](#creation-of-virtual-environment) and it is active!
+
+> Make sure that `log_dir` in config file is correct!
+
+> Script can process pdf files. Parameter `w_n` in [predict_config.py](predict_config.py) is used for image resizing due to OS memory consumption when processing pdf. 
 ```bash
 python predict_config.py <config> <image or image folder>
 ```

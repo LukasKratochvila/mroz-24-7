@@ -20,9 +20,6 @@ from pathlib import Path
 from addict import Dict
 from yapf.yapflib.yapf_api import FormatCode
 
-import utils
-
-
 if platform.system() == 'Windows':
     import regex as re  # type: ignore
 else:

@@ -9,12 +9,18 @@ import matplotlib.image as mpimg
 import tensorflow as tf
 import numpy as np
 from tqdm import tqdm
+from PIL import Image
+
+from pdf2image import convert_from_path
 
 from utils import ind2rgb
 import config as cf
 
 logging.disable(logging.WARNING)
 
+Image.MAX_IMAGE_PIXELS = None
+# Define max image width - need approximately 5GB memory
+w_n = 1000
 
 def pad_to(x, stride):
     h, w = x.shape[:2]
@@ -50,7 +56,16 @@ def predict(cfg):
 
     images = []
     for img in cfg.predict_cfg.images:
-        images.append(cv2.imread(img))
+        if img.split(".")[-1] == "pdf":
+            pages = convert_from_path(img, 300)
+            for page in pages:
+                # resize image because max image size
+                w, h = page.size
+                ratio = h/w
+                page = page.resize((w_n, int(w_n*ratio)))
+                images.append(np.array(page))
+        else:
+            images.append(cv2.imread(img))
 
     for i, image_org in enumerate(tqdm(images, 'Processing images')):
 
@@ -87,7 +102,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Predict trained model on image or image folder.')
     parser.add_argument('config', help='Config file path (could be multiple)', nargs='+')
     parser.add_argument('images', default='', help='Image or folder to process')
-    parser.add_argument('--output_dir', default='results/quality', help='Folder to save output')
+    parser.add_argument('--output_dir', default='results/', help='Folder to save output')
 
     args = parser.parse_args()
     configs = args.config
