@@ -1,6 +1,6 @@
 matplotlib
 opencv-python
-tensorflow
+tensorflow==2.13.1
 numpy
 tqdm
 pdf2image
