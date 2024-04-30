@@ -42,7 +42,7 @@ For creating data mask (used for training) can be used:
 ```bash
 python create_mask.py -p <path-to-dataset>
 ```
-The script assumes you have this structure (folder and file names may vary). Files in quotation marks are created :
+The script assumes you have this structure (folder and file names may vary). Files in quotation marks are created:
 
     .
     ├── ...
@@ -68,6 +68,13 @@ When you have prepared images and config, you can run predicting by this command
 > Script can process pdf files. Parameter `w_n` in [predict_config.py](predict_config.py) is used for image resizing due to OS memory consumption when processing pdf. (If you want to process `pdf` make sure that you have installed `poppler`, because pdf2image python module is only wrapper around)
 ```bash
 python predict_config.py <config> <image or image folder>
+```
+
+By mistake, the prediction is confused. To correct output from model run script (in this script model class should be same as classes in model config file):
+> Make sure you had installed [virtual environment](#creation-of-virtual-environment) and it is active!
+
+```bash
+python correct_result.py <result image>
 ```
 
 # License

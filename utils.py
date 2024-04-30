@@ -25,7 +25,7 @@ floorplan_map_rgba = {
 }
 
 
-def ind2rgb(ind_img, color_map=None, ):
+def ind2rgb(ind_img, color_map=None):
     if color_map is None:
         color_map = floorplan_map
     else:
@@ -68,6 +68,7 @@ def plot_legend():
     for i, c in enumerate(classes):
         patches.append(mpatches.Patch(color=np.array(floorplan_map.get(i)) / 255, label=c[0].upper() + c[1:]))
     ax.legend(handles=patches)
+    ax.axis("off")
     # ax.legend(handles=patches, ncol=len(classes))
     plt.savefig('legend', bbox_inches='tight', pad_inches=0)
     plt.show()
