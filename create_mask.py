@@ -91,6 +91,8 @@ def draw(d: str, matrix):
 
 
 def parseSVG(floor, elements, matrix):  # '#003fff' door  '#ff7f00' wall '#00bfff' window
+    if "path" in floor.tag:
+        floor = [floor]
     for child in floor[0]:
         if 'style' in child.attrib and 'd' in child.attrib.keys():
             if ('stroke:#ff7f00' in child.attrib['style'] or 'stroke:#dd3700' in child.attrib['style']):  # Wall
@@ -119,8 +121,6 @@ def parse_label(path, img_name, svg_name, pbar):
 
     pbar.set_description('Parsing svg file ...')
     for group in root.find('{http://www.w3.org/2000/svg}g'):
-        if "path" in group.tag:
-            continue
         parseSVG(group, elements, matrix)
     pbar.set_description('Parsing Done.')
 
