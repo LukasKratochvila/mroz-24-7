@@ -15,6 +15,7 @@ from pdf2image import convert_from_path
 
 from utils import ind2rgb
 import config as cf
+from correct_result import convert_values
 
 logging.disable(logging.WARNING)
 
@@ -93,6 +94,13 @@ def predict(cfg):
         # Unpad result
         if np.any(pads.numpy()):
             result = unpad(result, pads)
+
+        # Fix model output
+        classes = ['background', 'walls', 'glass_walls', 'railings', 'doors', 'sliding_doors', 'windows', 'stairs_all']
+        model_classes = ['background'] + cfg.train_cfg.classes
+        result = convert_values(result, model_classes, classes)
+
+        # Save output
         cfg.predict_cfg.save_paths.append(
             '_'.join([os.path.basename(cfg.predict_cfg.images[i]).split('.')[0], cfg.train_cfg.exp_name, timestr]) + '.png')
         mpimg.imsave(cfg.predict_cfg.output_dir + "/result_" + cfg.predict_cfg.save_paths[-1], ind2rgb(result))
