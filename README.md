@@ -11,6 +11,7 @@ Contents:
 * [Creation of virtual environment](#creation-of-virtual-environment)
 * [Create Mask](#create-mask)
 * [Predicting](#predicting)
+* [Evaluation](#evaluation)
 
 
 ## Creation of virtual environment
@@ -76,6 +77,25 @@ By mistake, the prediction is confused. To correct output from model run script 
 ```bash
 python correct_result.py <result image>
 ```
+
+
+## Evaluation
+To evaluate dataset prepare folders as follow - create mask file and create result file (correct the result file) and run this script:
+> Make sure you had installed [virtual environment](#creation-of-virtual-environment) and it is active!
+```bash
+python evaluate.py -p <path-to-dataset>
+```
+The script assumes you have this structure (folder and file names may vary). Files in quotation marks are created:
+
+    .
+    ├── ...
+    └── Data                            # Folder with data samples
+        └── <1>                         # Folder with one data sample
+        │   ├── mask.png                # Mask file created with create_mask.py script
+        │   └── result_<file>.png       # Result file created with predict_config.py (corrected by correct_result.py)
+        ├── <2>                         # Folder with second data sample
+        │   └── ...
+        └── ... 
 
 # License
 [Apache License v2.0](LICENSE)
