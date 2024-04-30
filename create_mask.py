@@ -92,15 +92,14 @@ def draw(d: str, matrix):
 
 def parseSVG(floor, elements, matrix):  # '#003fff' door  '#ff7f00' wall '#00bfff' window
     for child in floor[0]:
-        if 'style' in child.attrib:
-            if (child.attrib['style'].split(';')[1].split(':')[1] == '#ff7f00' or
-                    child.attrib['style'].split(';')[1].split(':')[1] == '#dd3700'):  # Wall
+        if 'style' in child.attrib and 'd' in child.attrib.keys():
+            if ('stroke:#ff7f00' in child.attrib['style'] or 'stroke:#dd3700' in child.attrib['style']):  # Wall
                 elements['Walls'].append(draw(child.attrib['d'], matrix))
-            if child.attrib['style'].split(';')[1].split(':')[1] == '#003fff':  # Door
+            if 'stroke:#003fff' in child.attrib['style']:  # Door
                 elements['Doors'].append(draw(child.attrib['d'], matrix))
-            if child.attrib['style'].split(';')[1].split(':')[1] == '#00bfff':  # Window
+            if 'stroke:#00bfff' in child.attrib['style']:  # Window
                 elements['Windows'].append(draw(child.attrib['d'], matrix))
-            if 'stroke:#7fff00' in child.attrib['style'] and 'd' in child.attrib.keys():  # Stairs
+            if 'stroke:#7fff00' in child.attrib['style']:  # Stairs
                 elements['Stairs_all'].append(draw(child.attrib['d'], matrix))
 
 
@@ -120,6 +119,8 @@ def parse_label(path, img_name, svg_name, pbar):
 
     pbar.set_description('Parsing svg file ...')
     for group in root.find('{http://www.w3.org/2000/svg}g'):
+        if "path" in group.tag:
+            continue
         parseSVG(group, elements, matrix)
     pbar.set_description('Parsing Done.')
 
